@@ -59,10 +59,10 @@ def load_embedding(embedder_model, custom_embedder=None):
     else:
         model_path = embedding_list[embedder_model]
         if embedder_model in online_embedders:
-            model_path = embedding_list[embedder_model]
-            url = online_embedders[embedder_model]
-            print(f"\nDownloading {url} to {model_path}...")
-            wget.download(url, out=model_path)
+            if not os.path.exists(model_path):  # check if the model was already downloaded
+                url = online_embedders[embedder_model]
+                print(f"\nDownloading {url} to {model_path}...")
+                wget.download(url, out=model_path)  # start to download
         else:
             model_path = embedding_list["contentvec"]
 
